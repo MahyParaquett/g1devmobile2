@@ -3,7 +3,7 @@ import { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import ActionModal from "../../components/ActionModal";
-import { Modal } from "react-native-web";
+import { Modal } from "react-native";
 
 export default function Home() {
   const [alcool, setAlcool] = useState("");
@@ -13,6 +13,28 @@ export default function Home() {
 
   const fecharModal = () => {
     setExibirModal(false);
+  };
+
+  const calcularResultado = () => {
+    if (alcool !== "" && gasolina !== "") {
+      const valorAlcool = parseFloat(
+        alcool.replace("R$", "").replace(",", ".")
+      );
+      const valorGasolina = parseFloat(
+        gasolina.replace("R$", "").replace(",", ".")
+      );
+
+      const resultadoCalculo = valorAlcool / valorGasolina;
+
+      setResultado(
+        resultadoCalculo < 0.7
+          ? "Álcool é mais vantajoso"
+          : "Gasolina é mais vantajosa"
+      );
+      setExibirModal(true);
+    } else {
+      alert("Por favor, preencha todos os campos");
+    }
   };
 
   return (
@@ -59,15 +81,23 @@ export default function Home() {
 
       <TouchableOpacity
         style={styles.botao}
-        onPress={() => setExibirModal(true)}
+        onPress={() => {
+          setExibirModal(true);
+          calcularResultado();
+        }}
       >
         <Text style={styles.textoBotao}>Calcular</Text>
       </TouchableOpacity>
+
       <Modal visible={exibirModal} transparent={true}>
         <ActionModal
-          handleClose={() => setExibirModal(false)}
+          handleClose={() => {
+            setExibirModal(false);
+            setResultado("");
+          }}
           valorG={gasolina}
           valorA={alcool}
+          resultado={resultado}
         />
       </Modal>
     </View>

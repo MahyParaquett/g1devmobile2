@@ -1,17 +1,30 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function ActionModal({ valorA, valorG, handleClose }) {
+export default function ActionModal({
+  valorA,
+  valorG,
+  handleClose,
+  resultado,
+}) {
   return (
     <SafeAreaView style={styles.modalContainer}>
       <Image
         source={require("../../assets/modal.png")}
         style={{ width: 256, height: 256 }}
       ></Image>
+      <Text style={styles.titulo}>{resultado}</Text>
+
       <Text style={styles.texto}>Com os preços: </Text>
-      <Text style={styles.texto}>Álcool: R${valorA}</Text>
-      <Text style={styles.texto}>Gasolina: R${valorG}</Text>
+      <Text style={styles.texto}>Álcool: {valorA}</Text>
+      <Text style={styles.texto}>Gasolina: {valorG}</Text>
 
       <TouchableOpacity style={styles.botao} onPress={handleClose}>
         <Text style={styles.textoBotao}>Calcular novamente</Text>
@@ -27,13 +40,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "gray",
     borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   texto: {
     fontSize: 20,
     fontWeight: "bold",
     marginVertical: 15,
     color: "white",
-    marginRight: 220,
   },
   titulo: {
     fontSize: 30,
@@ -52,6 +66,7 @@ const styles = StyleSheet.create({
     margin: 20,
     borderRadius: 20,
     borderColor: "red",
+    borderWidth: 1,
   },
   textoBotao: {
     fontSize: 20,
